@@ -2,8 +2,12 @@ package com.xomena.so43303695;
 
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.content.res.ResourcesCompat;
+import android.util.DisplayMetrics;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -24,7 +28,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private LatLng sydney1;
     private LatLng sydney2;
-    private int iconRadiusPixels = 192;
+    private int iconRadiusPixels;
     Polyline poly;
 
     @Override
@@ -34,6 +38,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
+
+
+        //Let's calculate what is a radius in screen pixels for our icon
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        Drawable m_icon = ResourcesCompat.getDrawableForDensity(getResources(),R.drawable.ic_circle,dm.densityDpi,null);
+        int height = ((BitmapDrawable)m_icon).getBitmap().getHeight();
+        int width = ((BitmapDrawable)m_icon).getBitmap().getWidth();
+
+        iconRadiusPixels = width / 2;
+
         mapFragment.getMapAsync(this);
     }
 
